@@ -50,6 +50,13 @@ public class Multa {
 
     }
 
+    public Multa(Long id, EstadoMulta estado, Vehiculo vehiculo, Infractor infractor) {
+        this.id = id;
+        this.estado = estado;
+        this.vehiculo = vehiculo;
+        this.infractor = infractor;
+    }
+
     public Multa(Long id, Infractor infractor, EstadoMulta estado, Double monto) {
         this.id = id;
         this.infractor = infractor;

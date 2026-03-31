@@ -38,6 +38,11 @@ public class Infractor {
 
     public Infractor(){}
 
+    public Infractor(Long id, List<Vehiculo> vehiculos) {
+        this.id = id;
+        this.vehiculos = vehiculos;
+    }
+
     public Infractor(Long id, String nombre, String apellido) {
         this.id = id;
         this.nombre = nombre;

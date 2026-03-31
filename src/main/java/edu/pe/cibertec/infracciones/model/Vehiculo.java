@@ -27,4 +27,12 @@ public class Vehiculo {
 
     @ManyToMany(mappedBy = "vehiculos")
     private List<Infractor> infractores;
+
+    public Vehiculo() {
+    }
+
+    public Vehiculo(Long id, List<Infractor> infractores) {
+        this.id = id;
+        this.infractores = infractores;
+    }
 }

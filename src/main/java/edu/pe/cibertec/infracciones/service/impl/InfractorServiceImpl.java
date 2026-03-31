@@ -80,6 +80,27 @@ public class InfractorServiceImpl implements IInfractorService {
         return pendientes+vencidas;
     }
 
+    @Override
+    public String desasignarVehiculo(Long infractorId, Long vehiculoId) {
+        String resultado = "No se pudo desasignar el vehiculo";
+        Infractor infractor = infractorRepository.findById(infractorId).orElseThrow(() -> new InfractorNotFoundException(infractorId));
+        Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId).orElseThrow(() -> new VehiculoNotFoundException(vehiculoId));
+        boolean asignado = infractorRepository.verificaPertenenciaConInfractor(infractorId, vehiculoId);
+        List<Multa> multas = multaRepository.findByInfractorAndVehicle(infractorId, vehiculoId);
+        if (asignado) {
+            for (int i = 0; multas.size() > i; i++) {
+                if (multas.get(i).getEstado().equals(PENDIENTE) || multas.get(i).getEstado().equals(VENCIDA)) {
+                    return resultado;
+                }
+            }
+            infractor.getVehiculos().remove(vehiculo);
+            resultado = "Vehiculo desasignado";
+            infractorRepository.save(infractor);
+            return resultado;
+
+        }
+        return resultado;
+    }
 
     private InfractorResponseDTO mapToResponse(Infractor infractor) {
         InfractorResponseDTO dto = new InfractorResponseDTO();
@@ -91,4 +112,6 @@ public class InfractorServiceImpl implements IInfractorService {
         dto.setBloqueado(infractor.isBloqueado());
         return dto;
     }
+
+
 }
