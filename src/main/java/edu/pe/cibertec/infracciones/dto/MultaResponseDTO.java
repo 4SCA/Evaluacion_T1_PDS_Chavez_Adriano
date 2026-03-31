@@ -16,4 +16,5 @@ public class MultaResponseDTO {
     private String infractorNombre;
     private String vehiculoPlaca;
     private List<String> tiposInfraccion;
+
 }

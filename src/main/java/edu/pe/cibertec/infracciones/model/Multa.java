@@ -45,4 +45,15 @@ public class Multa {
             inverseJoinColumns = @JoinColumn(name = "tipo_infraccion_id")
     )
     private List<TipoInfraccion> tiposInfraccion;
+
+    public Multa(){
+
+    }
+
+    public Multa(Long id, Infractor infractor, EstadoMulta estado, Double monto) {
+        this.id = id;
+        this.infractor = infractor;
+        this.estado = estado;
+        this.monto = monto;
+    }
 }

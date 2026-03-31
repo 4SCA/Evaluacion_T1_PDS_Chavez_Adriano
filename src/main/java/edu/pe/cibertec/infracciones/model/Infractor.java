@@ -35,4 +35,12 @@ public class Infractor {
             inverseJoinColumns = @JoinColumn(name = "vehiculo_id")
     )
     private List<Vehiculo> vehiculos;
+
+    public Infractor(){}
+
+    public Infractor(Long id, String nombre, String apellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
 }
