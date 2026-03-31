@@ -63,4 +63,10 @@ public class Multa {
         this.estado = estado;
         this.monto = monto;
     }
+
+    public Multa(long id, EstadoMulta estadoMulta) {
+    }
+
+    public Multa(long l, EstadoMulta estadoMulta, Infractor a, Vehiculo vehiculo) {
+    }
 }

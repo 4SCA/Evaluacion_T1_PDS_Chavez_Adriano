@@ -4,9 +4,11 @@ package edu.pe.cibertec.infracciones;
 import edu.pe.cibertec.infracciones.model.Infractor;
 import edu.pe.cibertec.infracciones.model.Multa;
 import edu.pe.cibertec.infracciones.model.Vehiculo;
+import edu.pe.cibertec.infracciones.repository.InfractorRepository;
 import edu.pe.cibertec.infracciones.repository.MultaRepository;
 import edu.pe.cibertec.infracciones.repository.VehiculoRepository;
 import edu.pe.cibertec.infracciones.service.impl.InfractorServiceImpl;
+import edu.pe.cibertec.infracciones.service.impl.MultaServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static edu.pe.cibertec.infracciones.model.EstadoMulta.PENDIENTE;
 import static edu.pe.cibertec.infracciones.model.EstadoMulta.VENCIDA;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +43,8 @@ class InfraccionesApplicationTests {
 
     @Mock
     VehiculoRepository vehiculoRepository;
+    @Mock
+    InfractorRepository infractorRepository;
 
     @InjectMocks
     InfractorServiceImpl infractorService;
@@ -87,6 +94,7 @@ class InfraccionesApplicationTests {
 
         //Me quede en blanco
     }
+
 
 
 

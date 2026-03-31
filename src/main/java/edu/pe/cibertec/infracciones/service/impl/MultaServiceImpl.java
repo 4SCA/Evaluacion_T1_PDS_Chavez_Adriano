@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static edu.pe.cibertec.infracciones.model.EstadoMulta.PENDIENTE;
+
 @Service
 @RequiredArgsConstructor
 public class MultaServiceImpl implements IMultaService {
@@ -55,7 +57,7 @@ public class MultaServiceImpl implements IMultaService {
         multa.setMonto(monto);
         multa.setFechaEmision(LocalDate.now());
         multa.setFechaVencimiento(LocalDate.now().plusDays(30));
-        multa.setEstado(EstadoMulta.PENDIENTE);
+        multa.setEstado(PENDIENTE);
         multa.setInfractor(infractor);
         multa.setVehiculo(vehiculo);
         multa.setTiposInfraccion(tipos);
@@ -63,7 +65,7 @@ public class MultaServiceImpl implements IMultaService {
         Multa saved = multaRepository.save(multa);
 
         long multasPendientesVehiculo = multaRepository
-                .findByVehiculo_IdAndEstado(vehiculo.getId(), EstadoMulta.PENDIENTE).size();
+                .findByVehiculo_IdAndEstado(vehiculo.getId(), PENDIENTE).size();
         if (multasPendientesVehiculo >= 3) {
             vehiculo.setSuspendido(true);
             vehiculoRepository.save(vehiculo);
@@ -93,6 +95,25 @@ public class MultaServiceImpl implements IMultaService {
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
+    }
+
+    @Override
+    public String transferirMulta(Long idMulta, Long nuevoInfraId) {
+        String mensaje="";
+        Multa multa = multaRepository.findById(idMulta).orElseThrow(()-> new MultaNotFoundException(idMulta));
+        Infractor nuevoInfractor = infractorRepository.findById(nuevoInfraId).orElseThrow(()-> new InfractorNotFoundException(nuevoInfraId));
+        if(multa.getEstado() != PENDIENTE){
+            return mensaje="No se puede transferir";
+        }
+        if(nuevoInfractor.isBloqueado()){
+            return mensaje="No se puede transferir";
+        }
+        if (!nuevoInfractor.getVehiculos().contains(multa.getVehiculo())){
+            return mensaje="No se puede transferir";
+        }
+        multa.setInfractor(nuevoInfractor);
+        multaRepository.save(multa);
+        return mensaje="Multa transferida";
     }
 
     private MultaResponseDTO mapToResponse(Multa multa) {

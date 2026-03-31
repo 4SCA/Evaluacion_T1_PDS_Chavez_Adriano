@@ -2,6 +2,8 @@ package edu.pe.cibertec.infracciones.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,7 +36,7 @@ public class Infractor {
             joinColumns = @JoinColumn(name = "infractor_id"),
             inverseJoinColumns = @JoinColumn(name = "vehiculo_id")
     )
-    private List<Vehiculo> vehiculos;
+    private List<Vehiculo> vehiculos = new ArrayList<>();
 
     public Infractor(){}
 
@@ -47,5 +49,8 @@ public class Infractor {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+    }
+
+    public Infractor(long l, String a, boolean b, List<Vehiculo> vehiculos) {
     }
 }
